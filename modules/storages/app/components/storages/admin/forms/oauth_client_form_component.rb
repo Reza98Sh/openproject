@@ -48,10 +48,6 @@ module Storages::Admin::Forms
       storage.persisted? ? edit_admin_settings_storage_path(storage) : admin_settings_storages_path
     end
 
-    def submit_button_disabled?
-      !oauth_client_configured?
-    end
-
     def submit_button_data_options
       {}.tap do |data|
         # For One Drive create action, break from Turbo Frame and follow full page redirect

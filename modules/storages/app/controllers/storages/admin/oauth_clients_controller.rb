@@ -37,7 +37,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   before_action :require_admin
 
   before_action :find_storage
-  before_action :delete_current_oauth_client, only: %i[create update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -66,7 +65,10 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     call_oauth_clients_create_service
 
     service_result.on_failure do
-      render '/storages/admin/storages/new_oauth_client'
+      respond_to do |format|
+        format.html { render '/storages/admin/storages/new_oauth_client' }
+        format.turbo_stream { render :new }
+      end
     end
 
     service_result.on_success do
